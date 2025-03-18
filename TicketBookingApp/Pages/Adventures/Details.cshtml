@@ -5,11 +5,28 @@
     ViewData["Title"] = "Adventure Details";
 }
 
-<h2>@Model.Adventure.Name</h2>
-<img src="@Model.Adventure.ImageUrl" alt="@Model.Adventure.Name" />
-<p>@Model.Adventure.Description</p>
-<p><strong>Price:</strong> @Model.Adventure.Price</p>
-<p><strong>Location:</strong> @Model.Adventure.Location</p>
-<p><strong>Duration:</strong> @Model.Adventure.Duration</p>
-
-<a href="/Booking/BookAdventure?id=@Model.Adventure.Id" class="btn">Book Now</a>
+@if (Model.Adventure != null)
+{
+    <article>
+        <header>
+            <h2>@Model.Adventure.Name</h2>
+        </header>
+        <figure>
+            <img src="@Model.Adventure.ImageUrl" alt="Image of @Model.Adventure.Name" class="adventure-image" />
+            <figcaption>@Model.Adventure.Name</figcaption>
+        </figure>
+        <section>
+            <p>@Model.Adventure.Description</p>
+            <p><strong>Price:</strong> @Model.Adventure.Price</p>
+            <p><strong>Location:</strong> @Model.Adventure.Location</p>
+            <p><strong>Duration:</strong> @Model.Adventure.Duration</p>
+        </section>
+        <footer>
+            <a asp-page="/Booking/BookAdventure" asp-route-id="@Model.Adventure.Name" class="btn btn-primary">Book Now</a>
+        </footer>
+    </article>
+}
+else
+{
+    <p>Adventure details not available.</p>
+}

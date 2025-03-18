@@ -12,14 +12,15 @@ namespace TicketBookingApp.Pages
 
         public IndexModel(AdventureRepository adventureRepository)
         {
-            _adventureRepository = adventureRepository;
+            _adventureRepository = adventureRepository ?? throw new ArgumentNullException(nameof(adventureRepository));
         }
 
-        public IEnumerable<AdventureRepository> Adventures { get; set; }
+        public IEnumerable<Adventure> Adventures { get; private set; }
 
         public async Task OnGetAsync()
         {
-            Adventures = (IEnumerable<AdventureRepository>)await _adventureRepository.GetAllAdventures();
+            Adventures = await _adventureRepository.GetAllAdventures();
         }
     }
 }
+

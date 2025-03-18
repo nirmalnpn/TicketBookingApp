@@ -15,20 +15,29 @@ namespace TicketBookingApp.Pages.Guide
 
         public IndexModel(GuideRepository guideRepository, AdventureRepository adventureRepository)
         {
-            _guideRepository = guideRepository;
-            _adventureRepository = adventureRepository;
+            _guideRepository = guideRepository ?? throw new ArgumentNullException(nameof(guideRepository));
+            _adventureRepository = adventureRepository ?? throw new ArgumentNullException(nameof(adventureRepository));
         }
 
-        public AdventureRepository Adventure { get; set; }
-        public IEnumerable<GuideRepository> Guides { get; set; }
+        public Adventure Adventure { get; private set; }
+        public IEnumerable<TicketBookingApp.Models.Guide> Guides { get; private set; }
 
         public async Task OnGetAsync(Guid adventureId)
         {
-            Adventure = await _adventureRepository.GetAdventureById(adventureId);
-            if (Adventure != null)
+            if (adventureId == Guid.Empty)
             {
-                Guides = await _guideRepository.GetGuidesByAdventureId(adventureId);
+                ModelState.AddModelError(string.Empty, "Invalid adventure ID.");
+                return;
             }
+
+            Adventure = await _adventureRepository.GetAdventureById(adventureId);
+            if (Adventure == null)
+            {
+                ModelState.AddModelError(string.Empty, "Adventure not found.");
+                return;
+            }
+
+            Guides = await _guideRepository.GetGuidesByAdventureId(adventureId);
         }
     }
 }

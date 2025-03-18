@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TicketBookingApp.Data;
-using TicketBookingApp.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using TicketBookingApp.Models; // Add this using directive
 
-namespace TicketBookingApp.Pages.Adventure
+namespace TicketBookingApp.Pages.Adventures
 {
     public class IndexModel : PageModel
     {
@@ -13,14 +10,14 @@ namespace TicketBookingApp.Pages.Adventure
 
         public IndexModel(AdventureRepository adventureRepository)
         {
-            _adventureRepository = adventureRepository;
+            _adventureRepository = adventureRepository ?? throw new ArgumentNullException(nameof(adventureRepository));
         }
 
-        public IEnumerable<AdventureRepository> Adventures { get; set; }
+        public IEnumerable<Adventure> Adventures { get; private set; }
 
         public async Task OnGetAsync()
         {
-            Adventures = (IEnumerable<AdventureRepository>)await _adventureRepository.GetAllAdventures();
+            Adventures = await _adventureRepository.GetAllAdventures();
         }
     }
 }

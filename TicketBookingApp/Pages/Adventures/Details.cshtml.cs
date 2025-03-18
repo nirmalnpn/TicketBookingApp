@@ -1,25 +1,27 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
 using TicketBookingApp.Data;
-using TicketBookingApp.Models;
-using System;
-using System.Threading.Tasks;
 
-namespace TicketBookingApp.Pages.Adventure
+namespace TicketBookingApp.Pages.Adventures
 {
     public class DetailsModel : PageModel
     {
         private readonly AdventureRepository _adventureRepository;
 
-        public AdventureRepository Adventure { get; set; }
+        public TicketBookingApp.Models.Adventure Adventure { get; private set; }
 
         public DetailsModel(AdventureRepository adventureRepository)
         {
-            _adventureRepository = adventureRepository;
+            _adventureRepository = adventureRepository ?? throw new ArgumentNullException(nameof(adventureRepository));
         }
 
         public async Task<IActionResult> OnGetAsync(Guid id)
         {
+            if (id == Guid.Empty)
+            {
+                return BadRequest("Invalid adventure ID.");
+            }
+
             Adventure = await _adventureRepository.GetAdventureById(id);
             if (Adventure == null)
             {

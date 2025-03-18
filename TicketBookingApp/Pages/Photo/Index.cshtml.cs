@@ -4,6 +4,8 @@ using TicketBookingApp.Data;
 using TicketBookingApp.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace TicketBookingApp.Pages.Photo
 {
@@ -14,32 +16,46 @@ namespace TicketBookingApp.Pages.Photo
 
         public IndexModel(PhotoRepository photoRepository, AdventureRepository adventureRepository)
         {
-            _photoRepository = photoRepository;
-            _adventureRepository = adventureRepository;
+            _photoRepository = photoRepository ?? throw new ArgumentNullException(nameof(photoRepository));
+            _adventureRepository = adventureRepository ?? throw new ArgumentNullException(nameof(adventureRepository));
         }
 
-        public IEnumerable<PhotoRepository> Photos { get; set; }
-        public IEnumerable<AdventureRepository> Adventures { get; set; }
+        public IEnumerable<TicketBookingApp.Models.Photo> Photos { get; private set; }
+        public IEnumerable<TicketBookingApp.Models.Adventure> Adventures { get; private set; }
 
         [BindProperty]
-        public PhotoRepository NewPhoto { get; set; }
+        public IFormFile Upload { get; set; }
+
+        [BindProperty]
+        public TicketBookingApp.Models.Photo NewPhoto { get; set; }
 
         public async Task OnGetAsync()
         {
-            Photos = await _photoRepository.GetAllPhotos();
-            Adventures = (IEnumerable<AdventureRepository>)await _adventureRepository.GetAllAdventures();
+            Photos = await _photoRepository.GetAllPhotos() as IEnumerable<TicketBookingApp.Models.Photo>;
+            Adventures = await _adventureRepository.GetAllAdventures();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
-                // Save the uploaded file and add it to the database
-                var filePath = "/path/to/uploaded/photo"; // Handle file upload logic
-                NewPhoto.FilePath = filePath;
+                if (Upload != null)
+                {
+                    var filePath = Path.Combine("wwwroot/uploads", Upload.FileName);
 
-                await _photoRepository.AddPhoto(NewPhoto);
-                return RedirectToPage("/Photo/Index");
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Upload.CopyToAsync(stream);
+                    }
+
+                    NewPhoto.FilePath = filePath;
+                    NewPhoto.FileName = Upload.FileName;
+                    NewPhoto.UploadedAt = DateTime.UtcNow;
+
+                    await _photoRepository.AddPhoto(NewPhoto);
+                    return RedirectToPage("/Photo/Index");
+                }
+                ModelState.AddModelError(string.Empty, "Please upload a file.");
             }
 
             return Page();
