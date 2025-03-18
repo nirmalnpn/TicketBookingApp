@@ -1,0 +1,24 @@
+﻿@page
+@model TicketBookingApp.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "Home - Ticket Booking App";
+}
+
+<h2>Welcome to Ticket Booking App</h2>
+
+<p>Explore and book thrilling adventures like Paragliding, Ziplining, Rafting, and more!</p>
+
+<h3>Featured Adventures</h3>
+
+<div class="adventure-list">
+    @foreach (var adventure in Model.Adventures)
+    {
+        <div class="adventure-item">
+            <img src="@adventure.ImageUrl" alt="@adventure.Name" />
+            <h4>@adventure.Name</h4>
+            <p>@adventure.Description</p>
+            <a href="/Adventure/Index" class="btn">View Adventures</a>
+        </div>
+    }
+</div>

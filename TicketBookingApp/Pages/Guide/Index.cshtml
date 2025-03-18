@@ -1,0 +1,28 @@
+﻿@page
+@model TicketBookingApp.Pages.Guide.IndexModel
+
+@{
+    ViewData["Title"] = "Our Guides";
+}
+
+<h2>Guides for @Model.Adventure.Name</h2>
+
+@if (Model.Guides.Any())
+{
+    <ul>
+        @foreach (var guide in Model.Guides)
+        {
+            <li>
+                <strong>@guide.FullName</strong><br />
+                <em>Experience:</em> @guide.Experience<br />
+                <em>Phone:</em> @guide.PhoneNumber<br />
+                <em>Email:</em> @guide.Email<br />
+                <em>Language:</em> @guide.LanguageSpoken
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No guides available for this adventure.</p>
+}

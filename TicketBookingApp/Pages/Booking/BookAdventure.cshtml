@@ -1,0 +1,25 @@
+﻿@page
+@model TicketBookingApp.Pages.Booking.BookAdventureModel
+
+@{
+    ViewData["Title"] = "Book Your Adventure";
+}
+
+<h2>Book Adventure</h2>
+
+<form method="post">
+    <div>
+        <label for="AdventureId">Adventure</label>
+        <select id="AdventureId" name="AdventureId" required>
+            @foreach (var adventure in Model.Adventures)
+            {
+                <option value="@adventure.Id">@adventure.Name</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="BookingDate">Booking Date</label>
+        <input type="date" id="BookingDate" name="BookingDate" required />
+    </div>
+    <button type="submit" class="btn">Book Now</button>
+</form>

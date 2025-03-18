@@ -1,0 +1,20 @@
+﻿@page
+@model TicketBookingApp.Pages.Adventure.IndexModel
+
+@{
+    ViewData["Title"] = "Available Adventures";
+}
+
+<h2>Available Adventures</h2>
+
+<div class="adventure-list">
+    @foreach (var adventure in Model.Adventures)
+    {
+        <div class="adventure-item">
+            <img src="@adventure.ImageUrl" alt="@adventure.Name" />
+            <h3>@adventure.Name</h3>
+            <p>@adventure.Description</p>
+            <a href="/Booking/BookAdventure?id=@adventure.Id" class="btn">Book Now</a>
+        </div>
+    }
+</div>
