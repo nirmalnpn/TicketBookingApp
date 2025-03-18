@@ -16,6 +16,8 @@ namespace TicketBookingApp.Data
             _connectionString = connectionString;
         }
 
+        public string FilePath { get; internal set; }
+
         private SqlConnection Connection => new SqlConnection(_connectionString);
 
         public async Task<int> AddPhoto(Photo photo)
@@ -31,6 +33,16 @@ namespace TicketBookingApp.Data
             using var db = Connection;
             var sql = "SELECT * FROM Photos WHERE AdventureId = @AdventureId";
             return await db.QueryAsync<Photo>(sql, new { AdventureId = adventureId });
+        }
+
+        internal async Task AddPhoto(PhotoRepository newPhoto)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal async Task<IEnumerable<PhotoRepository>> GetAllPhotos()
+        {
+            throw new NotImplementedException();
         }
     }
 }

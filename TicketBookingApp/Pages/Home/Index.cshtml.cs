@@ -15,11 +15,11 @@ namespace TicketBookingApp.Pages
             _adventureRepository = adventureRepository;
         }
 
-        public IEnumerable<Adventure> Adventures { get; set; }
+        public IEnumerable<AdventureRepository> Adventures { get; set; }
 
         public async Task OnGetAsync()
         {
-            Adventures = await _adventureRepository.GetAllAdventures();
+            Adventures = (IEnumerable<AdventureRepository>)await _adventureRepository.GetAllAdventures();
         }
     }
 }

@@ -19,8 +19,8 @@ namespace TicketBookingApp.Pages.Guide
             _adventureRepository = adventureRepository;
         }
 
-        public Adventure Adventure { get; set; }
-        public IEnumerable<Guide> Guides { get; set; }
+        public AdventureRepository Adventure { get; set; }
+        public IEnumerable<GuideRepository> Guides { get; set; }
 
         public async Task OnGetAsync(Guid adventureId)
         {

@@ -25,6 +25,7 @@ namespace TicketBookingApp.Models
         // Property to hold the selected booking details (for the form)
         [BindProperty]
         public Booking Booking { get; set; }
+        public Guid UserId { get; internal set; }
 
         // On GET, load all adventures
         public async Task OnGetAsync()

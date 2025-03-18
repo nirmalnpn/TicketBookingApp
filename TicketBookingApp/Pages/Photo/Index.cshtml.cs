@@ -18,16 +18,16 @@ namespace TicketBookingApp.Pages.Photo
             _adventureRepository = adventureRepository;
         }
 
-        public IEnumerable<Photo> Photos { get; set; }
-        public IEnumerable<Adventure> Adventures { get; set; }
+        public IEnumerable<PhotoRepository> Photos { get; set; }
+        public IEnumerable<AdventureRepository> Adventures { get; set; }
 
         [BindProperty]
-        public Photo NewPhoto { get; set; }
+        public PhotoRepository NewPhoto { get; set; }
 
         public async Task OnGetAsync()
         {
             Photos = await _photoRepository.GetAllPhotos();
-            Adventures = await _adventureRepository.GetAllAdventures();
+            Adventures = (IEnumerable<AdventureRepository>)await _adventureRepository.GetAllAdventures();
         }
 
         public async Task<IActionResult> OnPostAsync()

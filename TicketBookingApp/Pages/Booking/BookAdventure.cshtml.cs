@@ -20,13 +20,13 @@ namespace TicketBookingApp.Pages.Booking
         }
 
         [BindProperty]
-        public Booking Booking { get; set; }
+        public BookingModel Booking { get; set; }
 
-        public IEnumerable<Adventure> Adventures { get; set; }
+        public IEnumerable<AdventureRepository> Adventures { get; set; }
 
         public async Task OnGetAsync()
         {
-            Adventures = await _adventureRepository.GetAllAdventures();
+            Adventures = (IEnumerable<AdventureRepository>)await _adventureRepository.GetAllAdventures();
         }
 
         public async Task<IActionResult> OnPostAsync()

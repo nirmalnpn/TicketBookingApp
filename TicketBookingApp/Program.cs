@@ -15,6 +15,7 @@ builder.Services.AddScoped(_ => new UserRepository(connectionString));
 builder.Services.AddScoped(_ => new AdventureRepository(connectionString));
 builder.Services.AddScoped(_ => new BookingRepository(connectionString));
 builder.Services.AddScoped(_ => new PhotoRepository(connectionString));
+builder.Services.AddScoped(_=> new GuideRepository(connectionString));
 
 // Register JwtService
 builder.Services.AddSingleton<JwtService>(new JwtService(builder.Configuration["Jwt:SecretKey"]));

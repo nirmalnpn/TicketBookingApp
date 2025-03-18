@@ -32,5 +32,10 @@ namespace TicketBookingApp.Data
             var sql = "SELECT * FROM Bookings WHERE UserId = @UserId";
             return await db.QueryAsync<Booking>(sql, new { UserId = userId });
         }
+
+        internal async Task AddBooking(BookingModel booking)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

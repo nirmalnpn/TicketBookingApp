@@ -31,5 +31,10 @@ namespace TicketBookingApp.Data
             var sql = "SELECT * FROM Adventures WHERE Id = @Id";
             return await db.QuerySingleOrDefaultAsync<Adventure>(sql, new { Id = id });
         }
+
+        public static implicit operator AdventureRepository(Adventure v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
