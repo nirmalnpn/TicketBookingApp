@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
 using TicketBookingApp.Data;
+using TicketBookingApp.Models; // Add this using directive
 
 namespace TicketBookingApp.Pages.Adventures
 {
@@ -8,7 +9,7 @@ namespace TicketBookingApp.Pages.Adventures
     {
         private readonly AdventureRepository _adventureRepository;
 
-        public TicketBookingApp.Models.Adventure Adventure { get; private set; }
+        public Adventure Adventure { get; private set; }
 
         public DetailsModel(AdventureRepository adventureRepository)
         {
